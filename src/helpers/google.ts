@@ -1,7 +1,7 @@
 // Dependencies
 import * as cloud from './cloud'
 
-export async function google(key: any, filePath: string) {
+export async function google(key: any, filePath: string, language: string) {
   // Upload to drive
   const uri = await cloud.put(filePath, key)
   // Transcribe
@@ -14,7 +14,7 @@ export async function google(key: any, filePath: string) {
       enableWordTimeOffsets: true,
       encoding: 'LINEAR16',
       sampleRateHertz: 16000,
-      languageCode: 'en-US',
+      languageCode: language,
     },
     audio: {
       uri,

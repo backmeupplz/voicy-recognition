@@ -17,12 +17,16 @@ export async function recognizeWit(key: string, filePath: string) {
   }
 }
 
-export async function recognizeGoogle(key: ReadStream, filePath: string) {
+export async function recognizeGoogle(
+  key: ReadStream,
+  filePath: string,
+  language: string
+) {
   try {
     // Convert to flac
     const { flacPath } = await flacify(filePath)
     // Recognize
-    const text = await google(await rsToJson(key), flacPath)
+    const text = await google(await rsToJson(key), flacPath, language)
     return text
   } finally {
     tryDeletingFile(filePath)

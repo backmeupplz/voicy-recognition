@@ -39,7 +39,7 @@ export default class {
     const filePath = await saveReadStream(file)
     // Respond
     ctx.body = {
-      text: await recognizeGoogle(key, filePath),
+      text: await recognizeGoogle(key, filePath, language),
     }
   }
 }
