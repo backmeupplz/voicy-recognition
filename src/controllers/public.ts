@@ -3,7 +3,7 @@ import { Context } from 'koa'
 import { Controller, Post } from 'koa-router-ts'
 import * as asyncBusboy from 'async-busboy'
 import { errors } from '../helpers/errors'
-import { recognizeWit } from '../helpers/recognize'
+import { recognizeWit, recognizeGoogle } from '../helpers/recognize'
 import { saveReadStream } from '../helpers/saveReadStream'
 
 @Controller('/recognize')
@@ -28,25 +28,18 @@ export default class {
   @Post('/google')
   async google(ctx: Context) {
     // Get the file and key
-    const { files } = await asyncBusboy(ctx.req)
+    const { files, fields } = await asyncBusboy(ctx.req)
     const key = files[0]
     const file = files[1]
-    if (!file || !key) {
+    const language = fields.language
+    if (!file || !key || !language) {
       return ctx.throw(403, errors.invalidFormat)
     }
-    // Break down the file
-    await delay(5)
-    // Cleanup
+    // Save file
+    const filePath = await saveReadStream(file)
+    // Respond
     ctx.body = {
-      text: 'Распознал четенько, так держать!',
+      text: await recognizeGoogle(key, filePath),
     }
   }
-}
-
-function delay(s: number) {
-  return new Promise(res => {
-    setTimeout(() => {
-      res()
-    }, s * 1000)
-  })
 }
