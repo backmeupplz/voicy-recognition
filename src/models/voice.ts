@@ -16,10 +16,21 @@ export class Voice extends Typegoose {
   engine: Engine
   @prop({ required: true })
   duration: number
-  @prop()
+  @prop({ default: 'voicybot.com' })
   text?: string
 }
 
 export const VoiceModel = new Voice().getModelForClass(Voice, {
   schemaOptions: { timestamps: true },
 })
+
+export function injectOneVoice(engine: string, duration: number) {
+  try {
+    return new VoiceModel({
+      engine: engine as Engine,
+      duration,
+    }).save()
+  } catch (err) {
+    // Do nothing
+  }
+}

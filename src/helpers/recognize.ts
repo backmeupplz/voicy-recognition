@@ -4,6 +4,7 @@ import { duration, flacify } from './flac'
 import { wit } from './wit'
 import { google } from './google'
 import { ReadStream } from 'fs'
+import { injectOneVoice } from '../models'
 
 export async function recognizeWit(key: string, filePath: string) {
   try {
@@ -11,6 +12,7 @@ export async function recognizeWit(key: string, filePath: string) {
     const size = await duration(filePath)
     // Recognize
     const text = await wit(key, filePath, size)
+    await injectOneVoice('wit', size)
     return text
   } finally {
     tryDeletingFile(filePath)
@@ -24,9 +26,10 @@ export async function recognizeGoogle(
 ) {
   try {
     // Convert to flac
-    const { flacPath } = await flacify(filePath)
+    const { flacPath, duration } = await flacify(filePath)
     // Recognize
     const text = await google(await rsToJson(key), flacPath, language)
+    await injectOneVoice('google', duration)
     return text
   } finally {
     tryDeletingFile(filePath)
