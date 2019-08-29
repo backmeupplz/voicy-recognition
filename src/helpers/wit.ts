@@ -61,7 +61,7 @@ export async function wit(key: string, filePath: string, duration: number) {
 }
 
 function splitPath(path, duration) {
-  const trackLength = 15
+  const trackLength = 10
   const lastTrackLength = duration % trackLength
 
   const promises = []
