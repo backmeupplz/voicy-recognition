@@ -16,6 +16,7 @@ app.use(cors({ origin: '*' }))
 app.use(bodyParser())
 app.use(router.routes())
 app.use(router.allowedMethods())
-app.listen(1337)
+const server = app.listen(1337)
+server.timeout = 60 * 60 * 1000
 
 console.log('Koa application is up and running on port 1337')

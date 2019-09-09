@@ -6,14 +6,17 @@ import * as https from 'https'
 import { createReadStream } from 'fs'
 
 export async function wit(key: string, filePath: string, duration: number) {
+  console.log(`Recognizing ${filePath}`)
   // Split paths
   const paths = await splitPath(filePath, duration)
+  console.log(`Split paths: ${JSON.stringify(paths, undefined, 2)}`)
   // Save paths for later
   const savedPaths = paths.slice()
   // Recognize paths
   try {
     let result = []
     while (paths.length) {
+      console.log(`Paths left: ${paths.length}`)
       const pathsToRecognize = paths.splice(0, 5)
       const promises = []
       for (const path of pathsToRecognize) {
@@ -51,6 +54,7 @@ export async function wit(key: string, filePath: string, duration: number) {
         throw err
       }
     }
+    console.log(result)
     return result.join('. ')
   } finally {
     // Delete the temp files
