@@ -3,7 +3,9 @@ import * as cloud from './cloud'
 
 export async function google(key: any, filePath: string, language: string) {
   // Upload to drive
+  console.log(`Uploading ${filePath}`)
   const uri = await cloud.put(filePath, key)
+  console.log(`Recognizing ${uri}`)
   // Transcribe
   const SpeechClient = require('@google-cloud/speech').SpeechClient
   const speech = new SpeechClient({
@@ -33,6 +35,7 @@ export async function google(key: any, filePath: string, language: string) {
         resultingStrings.push(text)
       }
     })
+    console.log('Result', resultingStrings)
     return resultingStrings.join('. ')
   } catch (err) {
     throw err

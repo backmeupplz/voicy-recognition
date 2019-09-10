@@ -1,6 +1,6 @@
 // Dependencies
 import * as path from 'path'
-const Storage = require('@google-cloud/storage')
+const { Storage } = require('@google-cloud/storage')
 
 function getStorage(key: any) {
   return new Storage({
