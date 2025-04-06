@@ -1,0 +1,14 @@
+[phases.setup]
+nixPkgs = ["...", "ffmpeg"]
+
+[phases.install]
+cmds = ["yarn install"]
+
+[phases.build]
+cmds = ["yarn build-ts"]
+
+[start]
+cmd = "node dist/app.js"
+
+[variables]
+NODE_ENV = "production"
