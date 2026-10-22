@@ -1,5 +1,6 @@
 [phases.setup]
-nixPkgs = ["...", "ffmpeg"]
+nixpkgsArchive = "da6dc0e7b26060f2f71ce3ef7088fb56ee44fa36"
+aptPkgs = ["ffmpeg"]
 
 [phases.install]
 cmds = ["yarn install"]
